@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dimensions, Modal, DeviceEventEmitter } from 'react-native';
+import { Dimensions, Modal, DeviceEventEmitter, KeyboardAvoidingView } from 'react-native';
 import PropTypes from 'prop-types';
 import { View, initializeRegistryWithDefinitions } from 'react-native-animatable';
 import * as ANIMATION_DEFINITIONS from './animations';
@@ -42,6 +42,7 @@ export class ReactNativeModal extends Component {
     isVisible: false,
     hideOnBack: true,
     onBackButtonPress: () => null,
+    avoidKeyboard: true,
   };
 
   // We use an internal state for keeping track of the modal visibility: this allows us to keep
@@ -134,6 +135,7 @@ export class ReactNativeModal extends Component {
       onModalShow,
       onModalHide,
       style,
+      avoidKeyboard,
       ...otherProps
     } = this.props;
     const { deviceWidth, deviceHeight } = this.state;
@@ -152,13 +154,15 @@ export class ReactNativeModal extends Component {
             { backgroundColor: backdropColor, width: deviceWidth, height: deviceHeight },
           ]}
         />
-        <View
-          ref={ref => (this.contentRef = ref)}
-          style={[{ margin: deviceWidth * 0.05 }, styles.content, style]}
-          {...otherProps}
-        >
-          {children}
-        </View>
+        {avoidKeyboard && <KeyboardAvoidingView behavior={'padding'}>}
+          <View
+            ref={ref => (this.contentRef = ref)}
+            style={[{ margin: deviceWidth * 0.05 }, styles.content, style]}
+            {...otherProps}
+          >
+            {children}
+          </View>
+        </KeyboardAvoidingView>
       </Modal>
     );
   }
