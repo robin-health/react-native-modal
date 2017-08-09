@@ -154,7 +154,7 @@ export class ReactNativeModal extends Component {
             { backgroundColor: backdropColor, width: deviceWidth, height: deviceHeight },
           ]}
         />
-        <KeyboardAvoidingView behavior={'padding'}>
+        <KeyboardAvoidingView behavior="padding">
           <View
             ref={ref => (this.contentRef = ref)}
             style={[{ margin: deviceWidth * 0.05 }, styles.content, style]}
